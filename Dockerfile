@@ -18,3 +18,6 @@ FROM node:lts-alpine AS production
 COPY --from=build /app/build .
 COPY --from=build /app/package.json . 
 COPY --from=build /app/package-lock.json . 
+
+# Define the default command to run the application
+CMD ["node", "."]
