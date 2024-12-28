@@ -13,12 +13,12 @@
 	let navItems: NavItem[] = [
 		{
 			label: 'Main',
-			path: `/${base}/`,
+			path: `${base}/`,
 			icon: Box
 		},
 		{
 			label: 'Settings',
-			path: `/${base}/settings`,
+			path: `${base}/settings`,
 			icon: Settings2
 		}
 	];
