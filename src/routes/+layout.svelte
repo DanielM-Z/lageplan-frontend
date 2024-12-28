@@ -7,6 +7,7 @@
 	import Settings2 from 'lucide-svelte/icons/settings-2';
 	import type { NavItem } from '$lib/types/nav-item';
 	let { children } = $props();
+	
 
 	let navItems: NavItem[] = [
 		{
