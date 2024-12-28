@@ -33,7 +33,10 @@
 							class="rounded-lg {page.url.pathname === navItem.path ? 'bg-muted' : ''}"
 							aria-label={navItem.label}
 							builders={[builder]}
-							on:click={() => goto(navItem.path)}
+							on:click={() => {
+								console.log(navItem.path);
+								goto(navItem.path);}
+								}
 						>
 							<navItem.icon />
 						</Button>
