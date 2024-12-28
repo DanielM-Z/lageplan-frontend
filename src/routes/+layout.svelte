@@ -6,18 +6,19 @@
 	import Box from 'lucide-svelte/icons/box';
 	import Settings2 from 'lucide-svelte/icons/settings-2';
 	import type { NavItem } from '$lib/types/nav-item';
+	import { base } from '$app/paths';
 	let { children } = $props();
 	
 
 	let navItems: NavItem[] = [
 		{
 			label: 'Main',
-			path: '/',
+			path: `/${base}/`,
 			icon: Box
 		},
 		{
 			label: 'Settings',
-			path: '/settings',
+			path: `/${base}/settings`,
 			icon: Settings2
 		}
 	];
