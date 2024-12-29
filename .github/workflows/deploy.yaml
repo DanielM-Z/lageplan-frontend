@@ -29,6 +29,7 @@ jobs:
       - name: build
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
+          VITE_API_BASE_URL: 'https://lageplan-backend-829485537619.europe-west3.run.app'
         run: |
           npm run build
           touch build/.nojekyll

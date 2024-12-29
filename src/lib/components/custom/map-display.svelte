@@ -14,7 +14,7 @@
 
 	// Simple helper function to generate RectangleBounds
 	function getRectangleBounds(bounds: L.LatLngBounds, map: L.Map): RectangleBounds {
-		map.distance(bounds.getSouthWest(), bounds.getSouthEast());
+		
 		const width = map.distance(bounds.getSouthWest(), bounds.getSouthEast()) / 1000;
 		const height = map.distance(bounds.getSouthWest(), bounds.getNorthWest()) / 1000;
 		const area = width * height;

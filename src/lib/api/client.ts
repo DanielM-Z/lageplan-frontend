@@ -1,14 +1,7 @@
-const BASE_URL = 'http://localhost:8000';
+// VITE_API_BASE_URL has to be set to find the api path.
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
-export async function apiRequest(endpoint: string, options: RequestInit = {}) {
-	try {
-		const response = await fetch(`${BASE_URL}${endpoint}`, options);
-		if (!response.ok) {
-			throw new Error(`API Error: ${response.status} ${response.statusText}`);
-		}
-		return await response.json();
-	} catch (error) {
-		console.error('API Request Failed:', error);
-		throw error;
-	}
+export async function apiRequest(endpoint: string, options: RequestInit = {}): Promise<Response> {
+	console.log(BASE_URL);
+	return fetch(`${BASE_URL}${endpoint}`, options);
 }

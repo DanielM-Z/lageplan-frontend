@@ -1,5 +1,5 @@
 export const API_ENDPOINTS = {
 	ROOT: '/',
-	GENERATE: '/generate/'
+	DOWNLOAD_MAP: '/download_map/'
 	// DELETE_ITEM: (id: string) => `/items/${id}`,
 };
