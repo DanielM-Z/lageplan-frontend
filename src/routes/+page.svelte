@@ -1,13 +1,24 @@
 <script lang="ts">
 	import { apiRequest } from '$lib/api/client';
-	import { API_ENDPOINTS } from '$lib/api/endpoints';
+	import { API_ENDPOINTS, type DownloadRequestSettingsDef } from '$lib/api/endpoints';
+	// @ts-ignore This is super random
 	import MapSidebar from '$lib/components/custom/map-sidebar.svelte';
 	import MapDisplay from '$lib/components/custom/map-display.svelte';
 	import type { RectangleBounds } from '$lib/types/rectangle-bounds';
 	import { toast } from 'svelte-sonner';
-
+	import { Button } from '$lib/components/ui/button';
+	
 	// Variable to hold the rectangle
 	let rectangleDim: RectangleBounds | null = $state(null);
+
+	let genSettings: DownloadRequestSettingsDef  = $state({
+		contours: true, 
+		buildings_3d: true, 
+		streets: true, 
+		hatch: true, 
+		aerial_view: true, 
+		area_txt: true
+	});
 
 	function rectangleCallback(bounds: RectangleBounds | null) {
 		if (bounds) {
@@ -83,6 +94,7 @@
 			width={rectangleDim?.widthKm ?? 0}
 			height={rectangleDim?.heightKm ?? 0}
 			buttonCallback={callBackend}
+			bind:genSettings={genSettings}
 		/>
 	</div>
 	<div class="flex-1 p-2">
