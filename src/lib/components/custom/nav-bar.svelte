@@ -76,14 +76,16 @@
 			</Tooltip.Root>
 		</nav>
 	</aside>
-	<div class="flex flex-col overflow-y-auto">
-		<header class="bg-background sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b px-4">
+	<div class="flex flex-col">
+		<header class="bg-background fixed top-0 z-10 flex h-[57px] items-center gap-1 border-b px-4 w-full">
 			<h1 class="text-xl font-semibold">{title}</h1>
 			<!-- <Button variant="outline" size="sm" class="ml-auto gap-1.5 text-sm">
 				<Share class="size-3.5" />
 				Share
 			</Button> -->
 		</header>
+		<!-- This is wanky as shit but works. This is the same height as the top bar -->
+		<div class="h-[57px]"></div>
 		<!-- Render children -->
 		<main class="flex-1 px-4 py-3">{@render children()}</main>
 	</div>
