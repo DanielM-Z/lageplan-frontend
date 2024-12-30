@@ -76,7 +76,7 @@
 			</Tooltip.Root>
 		</nav>
 	</aside>
-	<div class="flex flex-col **overflow-y-auto**">
+	<div class="flex flex-col overflow-y-auto">
 		<header class="bg-background sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b px-4">
 			<h1 class="text-xl font-semibold">{title}</h1>
 			<!-- <Button variant="outline" size="sm" class="ml-auto gap-1.5 text-sm">
