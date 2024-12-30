@@ -37,11 +37,13 @@
 		await import('leaflet-editable');
 		// @ts-ignore
 		await import('leaflet.path.drag/src/Path.Drag');
+		await import('leaflet-control-geocoder');
 
 		const osmMapnik = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
 			noWrap: true
 		});
+
 
 		const lowerSaxonyBounds = L.latLngBounds(
 			L.latLng(52.28181, 9.50283), // Southwest corner
@@ -55,6 +57,21 @@
 			editable: true
 		}).fitBounds(lowerSaxonyBounds);
 
+		// @ts-ignore
+		var geocoder = L.Control.geocoder({
+			defaultMarkGeocode: false
+			})
+			.on('markgeocode', function(e:any) {
+				var bbox = e.geocode.bbox;
+				var poly = L.polygon([
+				bbox.getSouthEast(),
+				bbox.getNorthEast(),
+				bbox.getNorthWest(),
+				bbox.getSouthWest()
+				]);
+				map.fitBounds(poly.getBounds());
+			})
+			.addTo(map);
 		// @ts-ignore
 		L.EditControl = L.Control.extend({
 			options: {
@@ -140,5 +157,8 @@
 
 {#if browser}
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 {/if}
 <div class="h-full w-full rounded-lg" id="map" style="z-index: 0;"></div>
+
+
