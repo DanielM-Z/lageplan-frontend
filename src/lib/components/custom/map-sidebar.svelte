@@ -45,7 +45,7 @@
 <div class="mr-3 hidden flex-col gap-8 md:flex">
 	<form class="grid w-full gap-6">
 		<fieldset class="grid gap-6 rounded-lg border p-4">
-			<legend class="-ml-1 px-1 text-sm font-medium"> Generate </legend>
+			<legend class="-ml-1 px-1 text-sm font-medium"> Download </legend>
 			<div class="grid gap-3">
 				<!-- <Button onclick={()=>{console.log(checkboxItems)}}>Hi</Button> -->
 				<Label for="model">Export settings</Label>

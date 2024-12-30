@@ -7,6 +7,7 @@
 	import type { NavItem } from '$lib/types/nav-item';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { Badge } from '$lib/components/ui/badge';
 
 	interface Props {
 		children: any;
@@ -77,8 +78,9 @@
 		</nav>
 	</aside>
 	<div class="flex flex-col">
-		<header class="bg-background fixed top-0 z-10 flex h-[57px] items-center gap-1 border-b px-4 w-full">
-			<h1 class="text-xl font-semibold">{title}</h1>
+		<header class="bg-background fixed top-0 z-10 flex h-[57px] md:items-center border-b pl-4 w-full">
+			<h1 class="text-xl font-semibold pr-4">{title}</h1>
+			<Badge variant="secondary">Beta</Badge>
 			<!-- <Button variant="outline" size="sm" class="ml-auto gap-1.5 text-sm">
 				<Share class="size-3.5" />
 				Share
