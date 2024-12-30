@@ -104,4 +104,4 @@
 {#if browser}
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 {/if}
-<div class="h-full w-full rounded-lg" id="map"></div>
+<div class="h-full w-full rounded-lg" id="map" style="z-index: 0;"></div>
