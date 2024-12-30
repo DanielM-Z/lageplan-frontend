@@ -14,7 +14,6 @@
 
 	// Simple helper function to generate RectangleBounds
 	function getRectangleBounds(bounds: L.LatLngBounds, map: L.Map): RectangleBounds {
-		
 		const width = map.distance(bounds.getSouthWest(), bounds.getSouthEast()) / 1000;
 		const height = map.distance(bounds.getSouthWest(), bounds.getNorthWest()) / 1000;
 		const area = width * height;
@@ -34,8 +33,10 @@
 		const { default: L } = await import('leaflet');
 		// @ts-ignore
 		await import('leaflet-draw');
+		await import('$lib/plugin/editable/Leaflet.Editable');
+		// @ts-ignore
+		await import('leaflet.path.drag/src/Path.Drag');
 
-		// Initialize the base map
 		const osmMapnik = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
 			noWrap: true
@@ -48,38 +49,56 @@
 
 		// Load the map
 		const map = L.map('map', {
-			layers: [osmMapnik]
+			layers: [osmMapnik],
+			// @ts-ignore
+			editable: true
 		}).fitBounds(lowerSaxonyBounds);
+
+		// @ts-ignore
+		L.EditControl = L.Control.extend({
+			options: {
+				position: 'topleft',
+				callback: null,
+				kind: '',
+				html: ''
+			},
+			onAdd: function (map: L.Map) {
+				var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
+					link = L.DomUtil.create('a', '', container);
+				link.href = '#';
+				link.title = 'Create a new ' + this.options.kind;
+				link.innerHTML = this.options.html;
+				L.DomEvent.on(link, 'click', L.DomEvent.stop)
+					.on(link, 'click', function () {
+						// @ts-ignore
+						window.LAYER = this.options.callback.call(map.editTools);
+					}, this);
+				return container;
+			}
+		});
+
+		// @ts-ignore
+		L.NewRectangleControl = L.EditControl.extend({
+			options: {
+				position: 'topleft',
+				// @ts-ignore
+				callback: map.editTools.startRectangle,
+				kind: 'rectangle',
+				html: '⬛'
+			}
+		});
+
+		// @ts-ignore
+		map.addControl(new L.NewRectangleControl());
 
 		// Add an editable layer to the map
 		const drawnItems = new L.FeatureGroup();
 		map.addLayer(drawnItems);
 
-		// Add drawing controls to the map
-		// @ts-ignore
-		const drawControl = new L.Control.Draw({
-			draw: {
-				polygon: false,
-				circle: false,
-				marker: false,
-				polyline: false,
-				rectangle: {
-					shapeOptions: {
-						color: 'black', // Set the rectangle color to black
-						weight: 2
-					}
-				} // Enable rectangle drawing
-			}
-			// edit: {
-			// 	featureGroup: drawnItems // Enable editing of drawn items
-			// }
-		});
-		map.addControl(drawControl);
-
 		let currentRectangle: L.Rectangle | null = null;
 
-		// Handle the draw:created event
-		map.on('draw:created', (event: any) => {
+
+		map.on('editable:drawing:end', (event: any) => {
 			const layer = event.layer;
 
 			// If the layer is a rectangle
@@ -87,15 +106,32 @@
 				// Remove the previous rectangle if one exists
 				if (currentRectangle) {
 					drawnItems.removeLayer(currentRectangle);
+					// Optionally, remove previous listeners to avoid duplicates
+					currentRectangle.off('dragend');
+					currentRectangle.off('editable:editing');
 				}
 
 				// Add the new rectangle to the drawn items layer
 				drawnItems.addLayer(layer);
 				currentRectangle = layer;
 
-				// Notify parent
-				const bounds = getRectangleBounds(layer.getBounds(), map);
-				rectangleCallback(bounds);
+				if (currentRectangle) {
+
+					currentRectangle.on('editable:editing', () => { 
+						console.log('editable:editing event triggered');
+						const bounds = getRectangleBounds(currentRectangle!.getBounds(), map);
+						rectangleCallback(bounds);
+					});
+					if (currentRectangle) {
+					currentRectangle.on('dragend', () => {
+						// Update the parent with the final bounds
+						const bounds = getRectangleBounds(currentRectangle!.getBounds(), map);
+						rectangleCallback(bounds);
+					});
+				}
+					const bounds = getRectangleBounds(currentRectangle!.getBounds(), map);
+						rectangleCallback(bounds);
+				}
 			}
 		});
 	});
