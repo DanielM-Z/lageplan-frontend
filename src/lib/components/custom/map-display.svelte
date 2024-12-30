@@ -3,6 +3,7 @@
 	import { browser } from '$app/environment';
 	import type { RectangleBounds } from '$lib/types/rectangle-bounds';
 	import 'leaflet/dist/leaflet.css';
+	
 	import 'leaflet-draw/dist/leaflet.draw.css';
 
 	interface Props {
@@ -33,7 +34,7 @@
 		const { default: L } = await import('leaflet');
 		// @ts-ignore
 		await import('leaflet-draw');
-		await import('$lib/plugin/editable/Leaflet.Editable');
+		await import('leaflet-editable');
 		// @ts-ignore
 		await import('leaflet.path.drag/src/Path.Drag');
 
