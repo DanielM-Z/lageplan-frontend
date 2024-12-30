@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { apiRequest } from '$lib/api/client';
-	import { API_ENDPOINTS, type DownloadRequestSettingsDef } from '$lib/api/endpoints';
+	import { API_ENDPOINTS, type DownloadRequestBoxDef, type DownloadRequestDef, type DownloadRequestSettingsDef } from '$lib/api/endpoints';
 	// @ts-ignore This is super random
 	import MapSidebar from '$lib/components/custom/map-sidebar.svelte';
 	import MapDisplay from '$lib/components/custom/map-display.svelte';
@@ -11,6 +11,7 @@
 	// Variable to hold the rectangle
 	let rectangleDim: RectangleBounds | null = $state(null);
 
+	// Set all settings to be true by default
 	let genSettings: DownloadRequestSettingsDef  = $state({
 		contours: true, 
 		buildings_3d: true, 
@@ -34,12 +35,17 @@
 		}
 
 		try {
-			const requestBody = {
+			const boxRequest: DownloadRequestBoxDef = {
 				southWestLat: rectangleDim.south,
 				southWestLon: rectangleDim.west,
 				northEastLat: rectangleDim.north,
 				northEastLon: rectangleDim.east
 			};
+			const requestBody: DownloadRequestDef = {
+				settings_req: genSettings,
+				box_req: boxRequest
+			};
+
 			const response: Response = await apiRequest(API_ENDPOINTS.DOWNLOAD_MAP, {
 				method: 'POST',
 				headers: {
