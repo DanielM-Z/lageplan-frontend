@@ -8,6 +8,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { Badge } from '$lib/components/ui/badge';
+	import * as HoverCard from "$lib/components/ui/hover-card/index.js";
 
 	interface Props {
 		children: any;
@@ -53,20 +54,6 @@
 						variant="ghost"
 						size="icon"
 						class="mt-auto rounded-lg"
-						aria-label="Help"
-						builders={[builder]}
-					>
-						<LifeBuoy class="size-5" />
-					</Button>
-				</Tooltip.Trigger>
-				<Tooltip.Content side="right" sideOffset={5}>Help</Tooltip.Content>
-			</Tooltip.Root>
-			<Tooltip.Root>
-				<Tooltip.Trigger asChild let:builder>
-					<Button
-						variant="ghost"
-						size="icon"
-						class="mt-auto rounded-lg"
 						aria-label="Account"
 						builders={[builder]}
 					>
@@ -80,11 +67,19 @@
 	<div class="flex flex-col">
 		<header class="bg-background fixed top-0 z-10 flex h-[57px] md:items-center border-b pl-4 w-full">
 			<h1 class="text-xl font-semibold pr-4">{title}</h1>
-			<Badge variant="secondary">Beta</Badge>
-			<!-- <Button variant="outline" size="sm" class="ml-auto gap-1.5 text-sm">
-				<Share class="size-3.5" />
-				Share
-			</Button> -->
+		<HoverCard.Root>
+			<HoverCard.Trigger>
+			<Badge variant="secondary" style="pointer-events: none;">Beta</Badge>
+			</HoverCard.Trigger>
+			<HoverCard.Content class="w-80">
+			<div class="flex justify-between space-x-4">
+				<div class="space-y-1">
+				<p class="text-sm">This website is still under heavy development. Outages are to be expected.</p>
+				</div>
+			</div>
+			</HoverCard.Content>
+		</HoverCard.Root>
+			
 		</header>
 		<!-- This is wanky as shit but works. This is the same height as the top bar -->
 		<div class="h-[57px]"></div>
