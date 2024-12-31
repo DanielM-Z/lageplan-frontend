@@ -6,10 +6,11 @@
 	import MapDisplay from '$lib/components/custom/map-display.svelte';
 	import type { RectangleBounds } from '$lib/types/rectangle-bounds';
 	import { toast } from 'svelte-sonner';
-	import { Button } from '$lib/components/ui/button';
 	
 	// Variable to hold the rectangle
 	let rectangleDim: RectangleBounds | null = $state(null);
+
+	let currentlyDownloading = $state(false);
 
 	// Set all settings to be true by default
 	let genSettings: DownloadRequestSettingsDef  = $state({
@@ -45,6 +46,8 @@
 				settings_req: genSettings,
 				box_req: boxRequest
 			};
+
+			currentlyDownloading = true;
 
 			const response: Response = await apiRequest(API_ENDPOINTS.DOWNLOAD_MAP, {
 				method: 'POST',
@@ -87,9 +90,13 @@
 			// Clean up: remove the link and revoke the object URL
 			document.body.removeChild(a);
 			window.URL.revokeObjectURL(url);
+
+			
 		} catch (error) {
 			toast.error('Failed to initiate download');
 			console.error('Download error:', error);
+		} finally {
+			currentlyDownloading = false;
 		}
 	}
 </script>
@@ -100,6 +107,7 @@
 			width={rectangleDim?.widthKm ?? 0}
 			height={rectangleDim?.heightKm ?? 0}
 			buttonCallback={callBackend}
+			currentlyDownloading={currentlyDownloading}
 			bind:genSettings={genSettings}
 		/>
 	</div>

@@ -4,14 +4,16 @@
 	import Separator from '../ui/separator/separator.svelte';
 	import Checkbox from '../ui/checkbox/checkbox.svelte';
 	import type { DownloadRequestSettingsDef } from '$lib/api/endpoints';
+	import { LoaderCircle } from 'lucide-svelte';
 
 	interface Props {
 		height: number;
 		width: number;
 		genSettings: DownloadRequestSettingsDef ;
+		currentlyDownloading: false;
 		buttonCallback: () => void;
 	}
-	let { height, width, genSettings = $bindable(),buttonCallback }: Props = $props();
+	let { height, width, genSettings = $bindable(), currentlyDownloading,buttonCallback,  }: Props = $props();
 
 	interface CheckboxItem {
 		text: string,
@@ -40,6 +42,7 @@
 	checkboxItems["hatch"] = {text: "Buildings Hatch", checked: genSettings.hatch};
 	checkboxItems["aerial"] = {text: "Aerial View", checked: genSettings.aerial_view};
 	checkboxItems["area_txt"] = {text: "Area Txt", checked: genSettings.area_txt};
+
 </script>
 
 <div class="mr-3 hidden flex-col gap-8 md:flex">
@@ -52,8 +55,10 @@
 				<div class="pl-1">
 					{#each Object.keys(checkboxItems) as key}
 					<div class="items-top flex space-x-2 pb-1">
-						<Checkbox checked={checkboxItems[key].checked} onCheckedChange={() => checkBoxPressed(key)}/>
-						<div class="grid gap-1.5 leading-none">
+						<!-- Disable the buttons when downloading -->
+						<Checkbox checked={checkboxItems[key].checked} onCheckedChange={() => checkBoxPressed(key)} disabled = {currentlyDownloading}/>
+						
+							<div class="grid gap-1.5 leading-none">
 						<p class="text-muted-foreground text-sm">
 							{checkboxItems[key].text}
 						</p>
@@ -67,13 +72,21 @@
 				<Separator orientation="vertical" />
 				<div>Height: {height.toFixed(2)}km</div>
 				<Separator orientation="vertical" />
-				<div class={width * height > 10 ? 'text-red-400' : ''}>
+				<div class={width * height > 1 ? 'text-red-400' : ''}>
 					Area: {(width * height).toFixed(2)}km²
 				</div>
 			</div>
 		</fieldset>
 	</form>
 	<div class="">
+		{#if currentlyDownloading}
+		<Button disabled class="w-full" variant="secondary">
+			<LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
+			Downloading...
+		  </Button>
+		{:else}
 		<Button variant="secondary" class="w-full" on:click={buttonCallback}>Download</Button>
+		{/if}
+		
 	</div>
 </div>
