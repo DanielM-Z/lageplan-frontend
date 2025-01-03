@@ -59,7 +59,8 @@
 
 		// @ts-ignore
 		var geocoder = L.Control.geocoder({
-			defaultMarkGeocode: false
+			defaultMarkGeocode: false,
+			position: 'topleft'
 			})
 			.on('markgeocode', function(e:any) {
 				var bbox = e.geocode.bbox;

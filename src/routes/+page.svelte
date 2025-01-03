@@ -14,10 +14,8 @@
 
 	// Set all settings to be true by default
 	let genSettings: DownloadRequestSettingsDef  = $state({
-		contours: true, 
+		dxf: true, 
 		buildings_3d: true, 
-		streets: true, 
-		hatch: true, 
 		aerial_view: true, 
 		area_txt: true
 	});

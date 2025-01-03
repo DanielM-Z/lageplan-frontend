@@ -27,19 +27,15 @@
 	function checkBoxPressed(key: string){
 		checkboxItems[key].checked = !checkboxItems[key].checked;
 		genSettings ={
-			contours: checkboxItems["contours"].checked, 
+			dxf: checkboxItems["dxf"].checked, 
 			buildings_3d: checkboxItems["objects_3d"].checked, 
-			streets: checkboxItems["streets"].checked, 
-			hatch: checkboxItems["hatch"].checked, 
 			aerial_view: checkboxItems["aerial"].checked, 
 			area_txt: checkboxItems["area_txt"].checked
 		};
 	}
 	// This feels bad but works well enough so I let it be.
-	checkboxItems["contours"] = {text: "Contours", checked: genSettings.contours};
+	checkboxItems["dxf"] = {text: "Dxf", checked: genSettings.dxf};
 	checkboxItems["objects_3d"] = {text: "3D Buildings", checked: genSettings.buildings_3d};
-	checkboxItems["streets"] = {text: "Streets / Roads / Rivers", checked: genSettings.streets};
-	checkboxItems["hatch"] = {text: "Buildings Hatch", checked: genSettings.hatch};
 	checkboxItems["aerial"] = {text: "Aerial View", checked: genSettings.aerial_view};
 	checkboxItems["area_txt"] = {text: "Area Txt", checked: genSettings.area_txt};
 
@@ -84,8 +80,10 @@
 			<LoaderCircle class="mr-2 h-4 w-4 animate-spin" />
 			Downloading...
 		  </Button>
+		{:else if width * height > 1 }
+		<Button variant="secondary" class="w-full" disabled>Lageplan erstellen / Download</Button>
 		{:else}
-		<Button variant="secondary" class="w-full" on:click={buttonCallback}>Download</Button>
+		<Button variant="secondary" class="w-full" on:click={buttonCallback}>Lageplan erstellen / Download</Button>
 		{/if}
 		
 	</div>

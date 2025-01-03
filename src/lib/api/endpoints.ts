@@ -6,10 +6,8 @@ export interface DownloadRequestBoxDef {
 }
 
 export interface DownloadRequestSettingsDef {
-	contours: boolean;
+	dxf: boolean;
 	buildings_3d: boolean;
-	streets: boolean;
-	hatch: boolean;
 	aerial_view: boolean;
 	area_txt: boolean;
 }
